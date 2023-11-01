@@ -1,5 +1,6 @@
 package com.khangphat.model.dto;
 
+import com.khangphat.model.entity.Tag;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
@@ -14,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -29,4 +31,5 @@ public class PostDto {
     private String description;
     private Timestamp createAt;
     private Timestamp updateAt;
+    private Set<TagDto> setTag;
 }

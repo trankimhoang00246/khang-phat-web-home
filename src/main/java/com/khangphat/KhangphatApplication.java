@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @EnableJpaAuditing
-@EnableAspectJAutoProxy
+//@EnableAspectJAutoProxy
 public class KhangphatApplication {
 
 	public static void main(String[] args) {

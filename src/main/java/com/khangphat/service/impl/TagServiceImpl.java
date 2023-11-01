@@ -1,11 +1,12 @@
 package com.khangphat.service.impl;
 
 import com.khangphat.model.dto.PostDto;
+import com.khangphat.model.dto.TagDto;
 import com.khangphat.model.entity.Post;
-import com.khangphat.repository.PostRepository;
-import com.khangphat.service.PostService;
+import com.khangphat.model.entity.Tag;
+import com.khangphat.repository.TagRepository;
+import com.khangphat.service.TagService;
 import com.khangphat.utils.ModelMapperUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,17 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PostServiceImpl implements PostService {
+public class TagServiceImpl implements TagService {
     @Autowired
-    private PostRepository repository;
+    private TagRepository repository;
     @Autowired
-    private ModelMapperUtil<PostDto, Post> mapperUtil;
+    private ModelMapperUtil<TagDto, Tag> mapperUtil;
+
 
     @Override
-    public PostDto save(PostDto dto) {
+    public TagDto save(TagDto dto) {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
-            Post entity = mapperUtil.toEntity(dto);
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
+            Tag entity = mapperUtil.toEntity(dto);
             entity = repository.save(entity);
             return mapperUtil.toDto(entity);
         } catch (Exception e) {
@@ -40,12 +42,12 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public List<PostDto> findAll() {
+    public List<TagDto> findAll() {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
-            List<PostDto> list = new ArrayList<>();
-            Iterable<Post> all = repository.findAll();
-            for (Post item : all) {
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
+            List<TagDto> list = new ArrayList<>();
+            Iterable<Tag> all = repository.findAll();
+            for (Tag item : all) {
                 list.add(mapperUtil.toDto(item));
             }
             return list;
@@ -56,15 +58,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostDto> findAll(Pageable pageable) {
+    public Page<TagDto> findAll(Pageable pageable) {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
-            Page<Post> page = repository.findAll(PageRequest.of(
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
+            Page<Tag> page = repository.findAll(PageRequest.of(
                     pageable.getPageNumber(),
                     pageable.getPageSize(),
                     pageable.getSortOr(Sort.by(Sort.Direction.DESC, "createAt"))
             ));
-            Page<PostDto> dtos = page.map(item -> {
+            Page<TagDto> dtos = page.map(item -> {
                 return mapperUtil.toDto(item);
             });
             return dtos;
@@ -75,10 +77,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto findById(Long id) {
+    public TagDto findById(Long id) {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
-            Post entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "can not fine post by id: " + id));
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
+            Tag entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "can not fine post by id: " + id));
             return mapperUtil.toDto(entity);
         } catch (Exception e) {
             System.out.println(e);
@@ -88,12 +90,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     //     find truoc khi update
-    public PostDto updateById(PostDto dto, Long id) {
+    public TagDto updateById(TagDto dto, Long id) {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
             repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "can not fine post by id: " + id));
-            Post newEntity = mapperUtil.toEntity(dto);
-            Post result =repository.save(newEntity);
+            Tag newEntity = mapperUtil.toEntity(dto);
+            Tag result =repository.save(newEntity);
             return mapperUtil.toDto(result);
         } catch (Exception e) {
             return null;
@@ -103,7 +105,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean deleteById(Long id) {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
             repository.deleteById(id);
             return true;
         } catch (Exception e) {
@@ -115,7 +117,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean deleteByIds(List<Long> ids) {
         try {
-            mapperUtil.updateClasses(PostDto.class,Post.class);
+            mapperUtil.updateClasses(TagDto.class,Tag.class);
             repository.deleteAllById(ids);
             return true;
         } catch (Exception e) {
@@ -123,5 +125,4 @@ public class PostServiceImpl implements PostService {
             return false;
         }
     }
-
 }
